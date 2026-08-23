@@ -98,10 +98,10 @@ def fetch_all(
             retry += 1
             last_exception = sys.exc_info()
 
-        if retry >= retries:
+        if last_exception and retry >= retries:
             logger.error(
                 f"GitHub: Could not retrieve page of resource `{resource_type}` due to HTTP error.",
-                exc_info=True,
+                exc_info=last_exception,
             )
             raise last_exception[1].with_traceback(last_exception[2])
         elif retry > 0:
